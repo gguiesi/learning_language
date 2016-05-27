@@ -143,9 +143,3 @@ class MergeSubtitle:
                     count_l2 += 1
 
         self.__generate_final_file(l1_subs, filename)
-
-# TESTE CLASS
-path = '/Users/guiesi/Downloads/torrent/Penny.Dreadful.S03E04.720p.HDTV.x264-AVS[rarbg]/'
-merge_subs = MergeSubtitle(path + 'Penny.Dreadful.S03E04.720p.HDTV.x264-AVS.en.srt',
-                          path + 'Penny.Dreadful.S03E04.720p.HDTV.x264-AVS.pt.srt')
-merge_subs.merge_subtitles(path + 'teste.srt')
