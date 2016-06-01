@@ -3,7 +3,6 @@
 import datetime
 import re
 
-
 class Sub:
     def __init__(self, ini, end):
         self.ini = ini
@@ -67,8 +66,7 @@ class MergeSubtitle:
         self.l2_data = self.__load_subtitles(filename2)
         self.merge_proportion = merge_proportion
 
-    @staticmethod
-    def __load_subtitles(filename):
+    def __load_subtitles(self, filename):
         f = open(filename)
         return f.read().split(MergeSubtitle.SPLITTER)
 
@@ -93,8 +91,7 @@ class MergeSubtitle:
             result.append(sub)
         return result
 
-    @staticmethod
-    def __parse_times(data):
+    def __parse_times(self, data):
         t = re.findall(MergeSubtitle.TIME_REGEX, data)
         ini = datetime.datetime.strptime(t[0], '%H:%M:%S,%f')
         end = datetime.datetime.strptime(t[1], '%H:%M:%S,%f')
@@ -103,16 +100,17 @@ class MergeSubtitle:
     def __generate_final_file(self, subs, filename):
         f = open(filename, 'w')
 
-        count_l1 = 0
+        count = 0
         for sub in subs:
-            r = count_l1 % 10
             ini, l1, l2 = sub.__str__()
-            if len(sub.l2) > 0:
-                count_l1 += 1
-            if r > self.merge_proportion * 10 and len(sub.l2) > 0:
+
+            count += self.merge_proportion
+
+            if count < 1 and len(sub.l2) > 0:
                 f.write(ini + l2 + MergeSubtitle.SPLITTER)
             else:
                 f.write(ini + l1 + MergeSubtitle.SPLITTER)
+                count = count % 1
 
         f.close()
 
@@ -120,7 +118,7 @@ class MergeSubtitle:
         l1_subs, l2_subs = self.__parse_subs()
         count_l2 = 0
         count_l1 = 0
-        while count_l1 < l1_subs.__len__():
+        while count_l1 < l1_subs.__len__() and count_l2 < l2_subs.__len__():
             l1 = l1_subs[count_l1]
             l2 = l2_subs[count_l2]
 
