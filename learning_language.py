@@ -107,7 +107,8 @@ class MergeSubtitle:
             count += self.merge_proportion
 
             if count < 1 and len(sub.l2) > 0:
-                f.write(ini + l2 + MergeSubtitle.SPLITTER)
+                # print l2.decode('iso-8859-1').encode('utf-8')
+                f.write(ini + l2.decode('iso-8859-1').encode('utf-8') + MergeSubtitle.SPLITTER)
             else:
                 f.write(ini + l1 + MergeSubtitle.SPLITTER)
                 count = count % 1
