@@ -97,7 +97,7 @@ class MergeSubtitle:
         end = datetime.datetime.strptime(t[1], '%H:%M:%S,%f')
         return ini, end
 
-    def __generate_final_file(self, subs, filename):
+    def __generate_final_file(self, subs, filename, encoding='utf-8'):
         f = open(filename, 'w')
 
         count = 0
@@ -107,8 +107,7 @@ class MergeSubtitle:
             count += self.merge_proportion
 
             if count < 1 and len(sub.l2) > 0:
-                # print l2.decode('iso-8859-1').encode('utf-8')
-                f.write(ini + l2.decode('iso-8859-1').encode('utf-8') + MergeSubtitle.SPLITTER)
+                f.write(ini + l2.decode(encoding).encode('utf-8') + MergeSubtitle.SPLITTER)
             else:
                 f.write(ini + l1 + MergeSubtitle.SPLITTER)
                 count = count % 1
